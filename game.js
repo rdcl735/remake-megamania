@@ -80,9 +80,9 @@ class Game {
         });
 
         // Mobile Touch Events
-        const btnLeft = document.getElementById('btn-left');
-        const btnRight = document.getElementById('btn-right');
-        const btnShoot = document.getElementById('btn-shoot');
+        const zoneLeft = document.getElementById('touch-zone-left');
+        const zoneRight = document.getElementById('touch-zone-right');
+        const btnShootSpecial = document.getElementById('btn-shoot-special');
         const overlay = document.getElementById('overlay');
 
         const handleTouch = (code, isDown) => {
@@ -90,16 +90,16 @@ class Game {
             if (isDown) this.handleInteraction();
         };
 
-        btnLeft.addEventListener('touchstart', (e) => { e.preventDefault(); handleTouch('ArrowLeft', true); });
-        btnLeft.addEventListener('touchend', (e) => { e.preventDefault(); handleTouch('ArrowLeft', false); });
+        zoneLeft.addEventListener('touchstart', (e) => { e.preventDefault(); handleTouch('ArrowLeft', true); });
+        zoneLeft.addEventListener('touchend', (e) => { e.preventDefault(); handleTouch('ArrowLeft', false); });
         
-        btnRight.addEventListener('touchstart', (e) => { e.preventDefault(); handleTouch('ArrowRight', true); });
-        btnRight.addEventListener('touchend', (e) => { e.preventDefault(); handleTouch('ArrowRight', false); });
+        zoneRight.addEventListener('touchstart', (e) => { e.preventDefault(); handleTouch('ArrowRight', true); });
+        zoneRight.addEventListener('touchend', (e) => { e.preventDefault(); handleTouch('ArrowRight', false); });
 
-        btnShoot.addEventListener('touchstart', (e) => {
+        btnShootSpecial.addEventListener('touchstart', (e) => {
             e.preventDefault();
             this.handleInteraction();
-            if (this.state === 'PLAYING') this.shoot();
+            if (this.state === 'PLAYING') this.shootSpecial();
         });
 
         // Overlay touch to start
@@ -117,6 +117,21 @@ class Game {
         }
         // Unlock audio
         SFX.unlock();
+    }
+
+    shootSpecial() {
+        // Shoot 5 projectiles in a burst/spread
+        // We bypass the MAX_BULLETS limit for this special shot but add a small fuel cost or just let it be powerful
+        for (let i = 0; i < 5; i++) {
+            this.bullets.push({
+                x: (this.player.x + this.player.w / 2 - 2) + (i - 2) * 8, // Spread
+                y: this.player.y - (i * 5), // Staggered slightly
+                w: 4,
+                h: 12
+            });
+        }
+        SFX.shoot(); // Single sound or triple? Single is cleaner for a burst
+        this.fuel -= 1; // Small cost for special shot
     }
 
     spawnWave() {
