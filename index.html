@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Megalomania Remake | Atari Retro Shmup</title>
+    <meta name="description" content="A high-precision 8-bit space shooter inspired by the classic Megamania. Manage your energy and survive the waves!">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <header id="hud">
+            <div class="hud-item" id="score-container">
+                <span class="label">SCORE</span>
+                <span id="score">000000</span>
+            </div>
+            <div class="hud-item" id="high-score-container">
+                <span class="label">HI-SCORE</span>
+                <span id="high-score">000000</span>
+            </div>
+            <div class="hud-item" id="lives-container">
+                <span class="label">LIVES</span>
+                <div id="lives-icons"></div>
+            </div>
+        </header>
+
+        <canvas id="game-canvas"></canvas>
+
+        <footer id="energy-hud">
+            <div id="fuel-bar-wrapper">
+                <div id="fuel-bar"></div>
+            </div>
+            <span id="fuel-label">FUEL</span>
+        </footer>
+
+        <div id="overlay" class="hidden">
+            <div id="menu-content">
+                <h1 id="menu-title">MEGALOMANIA</h1>
+                <p id="menu-subtitle">PRESS SPACE TO START</p>
+                <div id="game-over-stats" class="hidden">
+                    <p>FINAL SCORE: <span id="final-score">0</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+</body>
+</html>
