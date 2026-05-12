@@ -64,11 +64,11 @@ class Game {
     }
 
     bindEvents() {
+        // Keyboard Events
         window.addEventListener('keydown', (e) => {
             this.keys[e.code] = true;
             if (this.state === 'MENU' && e.code === 'Space') {
-                this.start();
-                this.hud.overlay.classList.add('hidden');
+                this.handleInteraction();
             }
             if (this.state === 'PLAYING' && e.code === 'Space') {
                 this.shoot();
@@ -78,6 +78,45 @@ class Game {
         window.addEventListener('keyup', (e) => {
             this.keys[e.code] = false;
         });
+
+        // Mobile Touch Events
+        const btnLeft = document.getElementById('btn-left');
+        const btnRight = document.getElementById('btn-right');
+        const btnShoot = document.getElementById('btn-shoot');
+        const overlay = document.getElementById('overlay');
+
+        const handleTouch = (code, isDown) => {
+            this.keys[code] = isDown;
+            if (isDown) this.handleInteraction();
+        };
+
+        btnLeft.addEventListener('touchstart', (e) => { e.preventDefault(); handleTouch('ArrowLeft', true); });
+        btnLeft.addEventListener('touchend', (e) => { e.preventDefault(); handleTouch('ArrowLeft', false); });
+        
+        btnRight.addEventListener('touchstart', (e) => { e.preventDefault(); handleTouch('ArrowRight', true); });
+        btnRight.addEventListener('touchend', (e) => { e.preventDefault(); handleTouch('ArrowRight', false); });
+
+        btnShoot.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            this.handleInteraction();
+            if (this.state === 'PLAYING') this.shoot();
+        });
+
+        // Overlay touch to start
+        overlay.addEventListener('touchstart', (e) => {
+            if (this.state === 'MENU') {
+                this.handleInteraction();
+            }
+        });
+    }
+
+    handleInteraction() {
+        if (this.state === 'MENU') {
+            this.start();
+            this.hud.overlay.classList.add('hidden');
+        }
+        // Unlock audio
+        SFX.unlock();
     }
 
     spawnWave() {

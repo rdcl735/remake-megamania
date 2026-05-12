@@ -115,6 +115,12 @@ function initAudio() {
 }
 
 export const SFX = {
+    unlock: () => {
+        initAudio();
+        if (audioCtx && audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
+    },
     shoot: () => {
         initAudio();
         const osc = audioCtx.createOscillator();
